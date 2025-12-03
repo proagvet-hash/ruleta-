@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<!-- Lobby Screen -->
+<section id="lobby-screen" class="screen active">
+    <div class="lobby-content">
+        <div class="logo-large">
+            <h1>Apostemos</h1>
+            <p>Juego en Línea Multijugador</p>
+        </div>
+        <div class="lobby-form">
+            <input type="text" id="player-name-input" placeholder="Ingresa tu nombre" maxlength="12">
+            <div class="room-selection">
+                <div class="room-card selected" data-room="standard">
+                    <h3>Mesa Estándar</h3>
+                    <p>Min: $1 - Max: $500</p>
+                    <span class="online-count">🟢 124 Jugando</span>
+                </div>
+                <div class="room-card" data-room="vip">
+                    <h3>Sala VIP</h3>
+                    <p>Min: $50 - Max: $5000</p>
+                    <span class="online-count">🟡 45 Jugando</span>
+                </div>
+            </div>
+            <button id="join-game-btn" class="btn-play-large">ENTRAR A LA MESA</button>
+            <button id="go-to-register-btn" class="btn-secondary-large"
+                style="margin-top: 10px; background: transparent; border: 1px solid var(--primary-gold); color: var(--primary-gold); padding: 15px; width: 100%; border-radius: 50px; cursor: pointer; font-weight: bold; font-size: 1.2rem;">REGISTRARSE</button>
+        </div>
+    </div>
+    <a href="https://wa.me/573164259674" target="_blank" class="whatsapp-float">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" />
+    </a>
+</section>
+
+<!-- Registration Screen -->
+<section id="registration-screen" class="screen hidden">
+    <div class="registration-content">
+        <h2>Registro de Jugador</h2>
+        <form id="registration-form" action="https://formspree.io/f/movogeyq" method="POST">
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="reg-fullname">Nombre Completo</label>
+                    <input type="text" id="reg-fullname" name="fullname" required>
+                </div>
+                <div class="form-group">
+                    <label for="reg-id">Cédula / DNI</label>
+                    <input type="text" id="reg-id" name="id" required>
+                </div>
+                <div class="form-group">
+                    <label for="reg-email">Correo Electrónico</label>
+                    <input type="email" id="reg-email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="reg-phone">Teléfono</label>
+                    <input type="tel" id="reg-phone" name="phone" required>
+                </div>
+                <div class="form-group">
+                    <label for="reg-dob">Fecha de Nacimiento</label>
+                    <input type="date" id="reg-dob" name="dob" required>
+                </div>
+                <div class="form-group">
+                    <label for="reg-address">Dirección</label>
+                    <input type="text" id="reg-address" name="address" required>
+                </div>
+                <div class="form-group">
+                    <label for="reg-city">Ciudad / País</label>
+                    <input type="text" id="reg-city" name="city" required>
+                </div>
+                <div class="form-group">
+                    <label for="reg-username">Usuario</label>
+                    <input type="text" id="reg-username" name="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="reg-password">Contraseña</label>
+                    <input type="password" id="reg-password" name="password" required>
+                </div>
+            </div>
+            <div class="form-actions">
+                <button type="button" id="cancel-register-btn" class="btn-secondary">Cancelar</button>
+                <button type="submit" class="btn-primary">Registrarse</button>
+            </div>
+        </form>
+    </div>
+    <a href="https://wa.me/573164259674" target="_blank" class="whatsapp-float">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" />
+    </a>
+</section>
+
+<!-- Game Dashboard -->
+<section id="dashboard-screen" class="screen hidden">
+    <div class="game-layout-grid">
+        <!-- Left Sidebar: Players -->
+        <aside class="sidebar-left">
+            <div class="sidebar-header">
+                <h3>JUGADORES</h3>
+            </div>
+            <div id="players-list" class="players-list">
+                <!-- Populated by JS -->
+            </div>
+        </aside>
+
+        <!-- Center: Game -->
+        <main class="main-game">
+            <header class="table-header">
+                <div class="table-info">
+                    <span class="room-name" id="room-name-display">Mesa Estándar</span>
+                    <span class="round-id">ID: <span id="round-id">---</span></span>
+                </div>
+                <div class="user-balance-box">
+                    <span id="display-username">Guest</span>
+                    <span class="currency">$</span><span id="display-balance">0</span>
+                </div>
+            </header>
+
+            <div class="roulette-area">
+                <!-- Jackpots Left Side -->
+                <div class="jackpots-side">
+                    <h3 class="side-title">🎰 JACKPOTS</h3>
+                    <div class="jackpot-card mega">
+                        <div class="jp-icon">💎</div>
+                        <div class="jp-info">
+                            <span class="jp-name">MEGA</span>
+                            <span class="jp-value" id="jp-mega">$0</span>
+                        </div>
+                    </div>
+                    <div class="jackpot-card major">
+                        <div class="jp-icon">💰</div>
+                        <div class="jp-info">
+                            <span class="jp-name">MAJOR</span>
+                            <span class="jp-value" id="jp-major">$0</span>
+                        </div>
+                    </div>
+                    <div class="jackpot-card mini">
+                        <div class="jp-icon">🪙</div>
+                        <div class="jp-info">
+                            <span class="jp-name">MINI</span>
+                            <span class="jp-value" id="jp-mini">$0</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Roulette Center -->
+                <div class="roulette-container">
+                    <div class="roulette-wheel-outer">
+                        <div class="roulette-wheel" id="roulette-wheel"></div>
+                        <div class="roulette-ball" id="roulette-ball"></div>
+                        <div class="roulette-center"></div>
+                    </div>
+                    <div class="marker">▼</div>
+                </div>
+
+                <!-- Timer Right Side -->
+                <div class="timer-side">
+                    <h3 class="side-title">⏱️ TIEMPO</h3>
+                    <div class="timer-display">
+                        <span id="round-timer">00:00</span>
+                        <span class="timer-label">PRÓXIMA RONDA</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="betting-area">
+                <div class="betting-controls">
+                    <div class="chip-selector" id="chip-selector">
+                        <button class="chip selected" data-value="1">1</button>
+                        <button class="chip" data-value="5">5</button>
+                        <button class="chip" data-value="10">10</button>
+                        <button class="chip" data-value="25">25</button>
+                        <button class="chip" data-value="50">50</button>
+                        <button class="chip" data-value="100">100</button>
+                    </div>
+                    <div class="action-buttons">
+                        <button id="spin-now-btn" class="btn-action spin">GIRAR</button>
+                        <button id="clear-bets" class="btn-action">BORRAR</button>
+                    </div>
+                </div>
+
+                <div class="betting-board-container">
+                    <div class="betting-board" id="betting-board">
+                        <!-- Generated by JS -->
+                        <div class="board-zero">
+                            <div class="bet-spot zero" data-bet="0">0</div>
+                            <div class="bet-spot double-zero" data-bet="00">00</div>
+                        </div>
+                        <div class="board-numbers" id="board-numbers"></div>
+                        <div class="board-columns">
+                            <div class="bet-spot col-bet" data-bet="col-1">2:1</div>
+                            <div class="bet-spot col-bet" data-bet="col-2">2:1</div>
+                            <div class="bet-spot col-bet" data-bet="col-3">2:1</div>
+                        </div>
+                        <div class="board-bottom">
+                            <div class="bet-row dozens">
+                                <div class="bet-spot dozen" data-bet="1st-12">1st 12</div>
+                                <div class="bet-spot dozen" data-bet="2nd-12">2nd 12</div>
+                                <div class="bet-spot dozen" data-bet="3rd-12">3rd 12</div>
+                            </div>
+                            <div class="bet-row simple">
+                                <div class="bet-spot" data-bet="1-18">1-18</div>
+                                <div class="bet-spot" data-bet="even">PAR</div>
+                                <div class="bet-spot red-bet" data-bet="red">ROJO</div>
+                                <div class="bet-spot black-bet" data-bet="black">NEGRO</div>
+                                <div class="bet-spot" data-bet="odd">IMPAR</div>
+                                <div class="bet-spot" data-bet="19-36">19-36</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="total-bet-display">Apuesta: <span id="total-bet">$0</span></div>
+            </div>
+        </main>
+
+        <!-- Right Sidebar: Chat & History -->
+        <aside class="sidebar-right">
+            <div class="sidebar-section history">
+                <h3>HISTORIAL</h3>
+                <div id="last-results" class="history-grid"></div>
+            </div>
+            <div class="sidebar-section chat">
+                <h3>CHAT EN VIVO</h3>
+                <div id="chat-box" class="chat-box"></div>
+                <div class="chat-input-area">
+                    <input type="text" id="chat-input" placeholder="Escribe...">
+                    <button id="chat-send">➤</button>
+                </div>
+            </div>
+        </aside>
+    </div>
+</section>
+</div>
+
+<!-- Modal -->
+<div id="modal" class="modal hidden">
+    <div class="modal-content">
+        <h2 id="modal-title"></h2>
+        <p id="modal-message"></p>
+        <button id="modal-close" class="btn-primary">Cerrar</button>
+    </div>
+</div>
+
+<script type="module" src="app.js"></script>
+<script>
+    (function () { if (!window.chatbase || window.chatbase("getState") !== "initialized") { window.chatbase = (...arguments) => { if (!window.chatbase.q) { window.chatbase.q = [] } window.chatbase.q.push(arguments) }; window.chatbase = new Proxy(window.chatbase, { get(target, prop) { if (prop === "q") { return target.q } return (...args) => target(prop, ...args) } }) } const onLoad = function () { const script = document.createElement("script"); script.src = "https://www.chatbase.co/embed.min.js"; script.id = "mfcQuTJ-RGMmQSVLCRDFC"; script.domain = "www.chatbase.co"; document.body.appendChild(script) }; if (document.readyState === "complete") { onLoad() } else { window.addEventListener("load", onLoad) } })();
+</script>
+</body>
+
+</html>
