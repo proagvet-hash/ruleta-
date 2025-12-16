@@ -5,6 +5,7 @@ import { Jackpots } from './modules/jackpots.js';
 import { Utils } from './modules/utils.js';
 import { BotManager } from './modules/bots.js';
 import { Chat } from './modules/chat.js';
+import { Camera } from './modules/camera.js';
 
 class App {
     constructor() {
@@ -23,6 +24,7 @@ class App {
     init() {
         User.init();
         Jackpots.init();
+        Camera.init();
         this.cacheDOM();
         this.bindEvents();
 
@@ -412,6 +414,7 @@ class App {
     }
 
     startRoundTimer() {
+        Camera.reset(); // Restore camera for new round
         if (this.roundTimer) clearInterval(this.roundTimer);
         this.timeLeft = this.roundTimeTotal;
         this.dom.roundIdDisplay.textContent = Utils.generateId().substring(0, 8).toUpperCase();
@@ -448,7 +451,7 @@ class App {
         this.updatePlayersList(); // Update balances if they bet
     }
 
-    spinRoulette() {
+    async spinRoulette() {
         this.isSpinning = true;
         const totalBet = Bets.getTotalBetAmount();
         if (totalBet > 0) {
@@ -457,7 +460,18 @@ class App {
         }
         this.updateUI();
 
-        const result = Roulette.spin();
+        let prediction = null;
+        try {
+            prediction = await Camera.getPrediction();
+            if (prediction) {
+                console.log("Prediction forced:", prediction);
+                Chat.addMessage('System', '¡Cámara detectando destino!', true);
+            }
+        } catch (e) {
+            console.error(e);
+        }
+
+        const result = Roulette.spin(prediction);
 
         // Rotation Logic
         const segmentAngle = 360 / 38;
@@ -496,6 +510,9 @@ class App {
             Chat.addMessage(User.currentUser.username, "Mala suerte...");
         }
 
+        // Show Big Dynamic Result in Camera Box
+        Camera.showResult(result.number);
+
         // History
         const histItem = document.createElement('span');
         histItem.className = `result-badge ${result.color}`;
@@ -511,9 +528,18 @@ class App {
 
         this.dom.lastResults.prepend(histItem);
 
-        Bets.clearBets();
-        this.updateUI();
-        this.startRoundTimer();
+        // Limit history to 50 items to prevent deformation
+        if (this.dom.lastResults.children.length > 50) {
+            this.dom.lastResults.removeChild(this.dom.lastResults.lastChild);
+        }
+
+        // Camera.reset() moved to startRoundTimer to keep result visible
+
+        setTimeout(() => {
+            Bets.clearBets();
+            this.updateUI();
+            this.startRoundTimer();
+        }, 5000); // Wait 5 seconds to show the winner before starting next round
     }
 
     showModal(title, message) {

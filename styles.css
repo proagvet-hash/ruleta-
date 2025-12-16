@@ -664,8 +664,23 @@ aside {
 .sidebar-section {
     display: flex;
     flex-direction: column;
-    height: 50%;
     border-bottom: 1px solid var(--border-color);
+    background: var(--bg-panel);
+}
+
+.sidebar-section.history {
+    flex: 0 0 auto;
+    /* Don't grow, size to content */
+    max-height: 200px;
+    /* Limit height */
+    overflow: hidden;
+}
+
+.sidebar-section.chat {
+    flex: 1;
+    /* Grow to fill remaining space */
+    min-height: 200px;
+    overflow: hidden;
 }
 
 .chat-box {
@@ -725,6 +740,8 @@ aside {
     flex-wrap: wrap;
     gap: 5px;
     padding: 10px;
+    overflow-y: auto;
+    max-height: 100%;
 }
 
 .history-number {
@@ -861,12 +878,14 @@ aside {
     border-radius: 50px;
     text-align: center;
     font-size: 30px;
-    box-shadow: 2px 2px 3px #999;
-    z-index: 1000;
     display: flex;
-    align-items: center;
     justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    border: 2px solid #25D366;
     transition: transform 0.3s;
+    z-index: 1000;
 }
 
 .whatsapp-float:hover {
@@ -876,4 +895,55 @@ aside {
 .whatsapp-float img {
     width: 35px;
     height: 35px;
+}
+
+/* Result Overlay in Webcam Box */
+.result-overlay {
+    background: rgba(0, 0, 0, 0.9);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    animation: fade-in 0.5s;
+    width: 100%;
+    height: 100%;
+}
+
+.result-number-big {
+    font-size: 5rem;
+    font-weight: 900;
+    color: var(--primary-gold);
+    text-shadow: 0 0 20px rgba(255, 215, 0, 0.8), 2px 2px 0px #fff;
+    font-family: 'Cinzel', serif;
+    animation: result-pop 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.result-text-small {
+    font-size: 1.2rem;
+    color: white;
+    margin-top: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+@keyframes result-pop {
+    0% {
+        transform: scale(0) rotate(-180deg);
+        opacity: 0;
+    }
+
+    100% {
+        transform: scale(1) rotate(0deg);
+        opacity: 1;
+    }
+}
+
+@keyframes fade-in {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
 }

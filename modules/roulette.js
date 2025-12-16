@@ -17,9 +17,25 @@ export const Roulette = {
         31: 'black', 32: 'red', 33: 'black', 34: 'red', 35: 'black', 36: 'red'
     },
 
-    spin() {
-        const randomIndex = Utils.getSecureRandomInt(0, this.numbers.length - 1);
-        const winningNumber = this.numbers[randomIndex];
+    spin(forcedNumber = null) {
+        let winningNumber;
+        let randomIndex;
+
+        if (forcedNumber !== null && forcedNumber !== undefined) {
+            // Convert string number to integer/string matching the array
+            // Check if forcedNumber is '00' or '0' or regular number
+            const target = forcedNumber.toString() === '00' ? '00' : parseInt(forcedNumber);
+
+            randomIndex = this.numbers.findIndex(n => n === target);
+            if (randomIndex === -1) {
+                console.warn(`Forced number ${forcedNumber} not found in wheel. Using random.`);
+                randomIndex = Utils.getSecureRandomInt(0, this.numbers.length - 1);
+            }
+        } else {
+            randomIndex = Utils.getSecureRandomInt(0, this.numbers.length - 1);
+        }
+
+        winningNumber = this.numbers[randomIndex];
 
         // Calculate angle
         // Each segment is 360 / 38 degrees

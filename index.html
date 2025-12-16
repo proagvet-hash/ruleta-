@@ -12,6 +12,9 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Roboto:wght@300;400;700&display=swap"
         rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
+    <script
+        src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
 </head>
 
 <body>
@@ -226,6 +229,12 @@
 
                 <!-- Right Sidebar: Chat & History -->
                 <aside class="sidebar-right">
+                    <div id="webcam-container"
+                        style="background: #000; border-radius: 10px; overflow: hidden; margin-bottom: 5px; display: flex; justify-content: center; min-height: 200px;">
+                    </div>
+                    <div id="prediction-label"
+                        style="text-align: center; color: var(--primary-gold); margin-bottom: 20px; font-weight: bold; min-height: 24px;">
+                        Esperando cámara...</div>
                     <div class="sidebar-section history">
                         <h3>HISTORIAL</h3>
                         <div id="last-results" class="history-grid"></div>
